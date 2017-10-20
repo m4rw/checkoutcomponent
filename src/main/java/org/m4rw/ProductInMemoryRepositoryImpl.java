@@ -4,10 +4,10 @@ import org.springframework.dao.DuplicateKeyException;
 import java.util.*;
 
 /**
- * In memory implementation of {@code ProductRepository} that uses an {@code HashMap} to store
+ * In-memory implementation of {@code ProductRepository} that uses an {@code HashMap} to store
  * the product items for a given key (unique product code).
  *
- *  * <p>This class is stateful and is not threadsafe when any concurrent operations update the
+ *  * <p>This class is stateful and is not threadsafe when any concurrent operations update the respective
  * map. Concurrent read operations will work correctly.
  *
  */

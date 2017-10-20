@@ -6,6 +6,6 @@ package org.m4rw;
 @lombok.ToString
 @lombok.Builder
 public class SpecialDeal {
-    final double amountOfItems;
+    final int amountOfItems;
     final double price;
 }

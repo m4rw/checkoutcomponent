@@ -79,7 +79,7 @@ class ShoppingCartScannerImplSpecTest extends FlatSpec with GivenWhenThen {
     assert(scanner.getStandardTotalPrice === 21)
   }
 
-  // factory method for ProductRepository stubb
+  // factory method for ProductRepository stub
   def getProductRepositoryStub(): ProductRepository = {
     val productRepo = new ProductInMemoryRepositoryImpl()
     val milk = Product.builder().productCode("milkCode").productName("Milk").unitPrice(5.5).build()

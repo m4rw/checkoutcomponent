@@ -6,6 +6,9 @@ import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Implementation of {@code ShoppingCartScanner} that uses an {@code ArrayListMultimap} to store
  * the product items for a given key (product). A {@link HashMap} associates each key with an
@@ -96,10 +99,22 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
         return price;
     }
 
-    private double calculateTotalPricePerProduct(String product, int numberOfItems) {
+    private double calculateTotalPricePerProduct(String productCode, int numberOfScannedItems) {
+        checkArgument(numberOfScannedItems >=0, "numberOfScannedItems was %s but expected non negative", numberOfScannedItems);
+        checkNotNull(numberOfScannedItems);
+
+        double price = 0;
         //calculate price per product group
-        SpecialDeal deal = specialDeals.get(product);
-        return 0;
+        SpecialDeal deal = specialDeals.get(productCode);
+        int amountOfItems = deal.getAmountOfItems();
+        int quotient = numberOfScannedItems / amountOfItems;
+        int remainder = numberOfScannedItems % amountOfItems;
+
+        double specialPrice = deal.getPrice();
+        Product product = productRepository.getProductByItsCode(productCode);
+        price = quotient * specialPrice + remainder * product.getUnitPrice();
+
+        return price;
     }
 
     private boolean specialDealExistsForTheProduct(String product) {

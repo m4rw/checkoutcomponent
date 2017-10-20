@@ -1,6 +1,5 @@
 package org.m4rw;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 public interface ShoppingCartScanner {
