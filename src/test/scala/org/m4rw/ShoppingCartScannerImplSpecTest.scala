@@ -2,6 +2,7 @@ package org.m4rw
 
 
 import org.junit.runner.RunWith
+import org.m4rw.products.{Product, ProductInMemoryRepositoryImpl}
 import org.scalatest.{FlatSpec, GivenWhenThen}
 import org.scalatest.PrivateMethodTester._
 import org.scalatest.junit.JUnitRunner
@@ -74,8 +75,9 @@ class ShoppingCartScannerImplSpecTest extends FlatSpec with GivenWhenThen {
     scanner.scanProduct(soda.getProductCode,soda)
 
     Then("standard Total Price should equal standard price")
-    assert(scanner.getStandardTotalPrice === scanner.getTotalPrice )
-    info("since there is no special deals for this shoping cart total price equals standard price")
+    val standardPrice = scanner.getStandardTotalPrice;
+    assert(standardPrice === scanner.getTotalPrice )
+    info("since there is no special deals for this shopping cart total price equals standard price")
     assert(scanner.getStandardTotalPrice === 21)
   }
 
@@ -84,8 +86,8 @@ class ShoppingCartScannerImplSpecTest extends FlatSpec with GivenWhenThen {
     val productRepo = new ProductInMemoryRepositoryImpl()
     val milk = Product.builder().productCode("milkCode").productName("Milk").unitPrice(5.5).build()
     val soda = Product.builder().productCode("sodaCode").productName("soda").unitPrice(10).build()
-    productRepo.addNewProduct(milk.productCode,milk)
-    productRepo.addNewProduct(soda.productCode,soda)
+    productRepo.addNewProduct(milk.getProductCode, milk)
+    productRepo.addNewProduct(soda.getProductCode, soda)
     productRepo
   }
 }

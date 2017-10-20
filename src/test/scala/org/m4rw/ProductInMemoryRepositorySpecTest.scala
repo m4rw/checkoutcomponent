@@ -1,7 +1,8 @@
 package org.m4rw
 
 import org.junit.runner.RunWith
-import org.m4rw.Product._
+import org.m4rw.products.{Product, ProductInMemoryRepositoryImpl}
+import org.m4rw.products.Product._
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{FlatSpec, GivenWhenThen}
 

@@ -1,4 +1,4 @@
-package org.m4rw;
+package org.m4rw.products;
 
 import lombok.NonNull;
 
@@ -8,7 +8,7 @@ import lombok.NonNull;
 @lombok.ToString
 @lombok.Builder
 
-class Product{
+public class Product{
     @NonNull String productCode;
     @NonNull String productName;
     @NonNull double unitPrice;

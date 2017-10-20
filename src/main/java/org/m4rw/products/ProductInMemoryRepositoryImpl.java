@@ -1,5 +1,6 @@
-package org.m4rw;
+package org.m4rw.products;
 
+import org.m4rw.ProductRepository;
 import org.springframework.dao.DuplicateKeyException;
 import java.util.*;
 

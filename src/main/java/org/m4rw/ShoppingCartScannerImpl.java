@@ -2,8 +2,10 @@ package org.m4rw;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import org.m4rw.products.Product;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -29,6 +31,7 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
     //map of product -> special deal
     HashMap<String, SpecialDeal> specialDeals;
     ProductRepository productRepository;
+//    public PriceCalculator priceCalculator = new PriceCalculator();
 
 
     ShoppingCartScannerImpl(HashMap<String, SpecialDeal> specialDeals, ProductRepository productRepository){
@@ -70,7 +73,7 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
     public double getStandardTotalPrice() {
         double price = 0;
         for (Product value : scannedProducts.values()) {
-            price += value.unitPrice;
+            price += value.getUnitPrice();
         }
         return price;
     }
@@ -80,54 +83,33 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
      *
      */
     public double getTotalPrice() {
-        double price = 0;
+        double totalPrice = 0;
 
         //iterate through scanned products
-        for (String product : scannedProducts.keys()) {
+        for (String product : scannedProducts.keySet()) {
 
             //check if special deal for the product exists
             if (specialDealExistsForTheProduct(product)) {
 
                 //how many items of this product we've got scanned
                 int numberOfItems = getNumberOfItems(product);
-                price += calculateTotalPricePerProduct(product, numberOfItems);
+                totalPrice += PriceCalculator.calculateTotalPricePerProduct(
+                        productRepository.getProductByItsCode(product),
+                        specialDeals.get(product),
+                        numberOfItems);
             }
             else{//no special deal for the product
-                price += calculateStandardPriceOfAllItems(product);
+                totalPrice += PriceCalculator.calculateStandardPriceOfAllItems(scannedProducts.get(product));
             }
         }
-        return price;
+        return totalPrice;
     }
 
-    private double calculateTotalPricePerProduct(String productCode, int numberOfScannedItems) {
-        checkArgument(numberOfScannedItems >=0, "numberOfScannedItems was %s but expected non negative", numberOfScannedItems);
-        checkNotNull(numberOfScannedItems);
-
-        double price = 0;
-        //calculate price per product group
-        SpecialDeal deal = specialDeals.get(productCode);
-        int amountOfItems = deal.getAmountOfItems();
-        int quotient = numberOfScannedItems / amountOfItems;
-        int remainder = numberOfScannedItems % amountOfItems;
-
-        double specialPrice = deal.getPrice();
-        Product product = productRepository.getProductByItsCode(productCode);
-        price = quotient * specialPrice + remainder * product.getUnitPrice();
-
-        return price;
-    }
 
     private boolean specialDealExistsForTheProduct(String product) {
         return specialDeals.get(product) != null;
     }
 
-    private double calculateStandardPriceOfAllItems(String product) {
-        double price = 0;
-        for (Product value : scannedProducts.get(product)) {
-            price = value.unitPrice;
-        }
-        return price;
-    }
 
     /**
      * @param product
@@ -137,11 +119,12 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
         return scannedProducts.get(product).size();
     }
 
-//    public List<SpecialDeal> getAppliedlDeals() {
-//        return null;
-//    }
 
     public int getNumberOfScannedItems() {
         return scannedProducts.size();
     }
+
+    /**
+     * Inner class to encapsulate logic to calculate prices
+     */
 }

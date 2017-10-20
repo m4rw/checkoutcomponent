@@ -1,5 +1,6 @@
 package org.m4rw;
 
+import org.m4rw.products.Product;
 import org.springframework.dao.DuplicateKeyException;
 import java.util.List;
 import java.util.NoSuchElementException;
