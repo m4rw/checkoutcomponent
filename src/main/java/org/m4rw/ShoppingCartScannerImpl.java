@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.m4rw.products.DuplicateProductException;
 import org.m4rw.products.Product;
+import org.m4rw.products.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,10 +29,10 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
     Multimap<String,Product> scannedProducts = ArrayListMultimap.create();
     //map of product -> special deal
     HashMap<String, SpecialDeal> specialDeals;
-    DuplicateProductException.ProductRepository productRepository;
+    ProductRepository productRepository;
 
 
-    ShoppingCartScannerImpl(HashMap<String, SpecialDeal> specialDeals, DuplicateProductException.ProductRepository productRepository){
+    ShoppingCartScannerImpl(HashMap<String, SpecialDeal> specialDeals, ProductRepository productRepository){
         this.specialDeals = specialDeals;
         this.productRepository = productRepository;
     }
@@ -95,7 +96,7 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
                         specialDeals.get(product),
                         numberOfItems);
             }
-            else{//no special deal exists for the product
+            else{//no special deal for the product
                 totalPrice += PriceCalculator.calculateStandardPriceOfAllItems(scannedProducts.get(product));
             }
         }
@@ -110,7 +111,7 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
 
     /**
      * @param product
-     * @return a number of items scanned so far
+     * @return a number of items of a given product in the shopping cart
      */
     private int getNumberOfItems(String product) {
         return scannedProducts.get(product).size();

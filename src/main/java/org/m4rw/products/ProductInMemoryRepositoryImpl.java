@@ -10,7 +10,7 @@ import java.util.*;
  * map. Concurrent read operations will work correctly.
  *
  */
-public class ProductInMemoryRepositoryImpl implements DuplicateProductException.ProductRepository {
+public class ProductInMemoryRepositoryImpl implements ProductRepository {
 
     private HashMap<String,Product> products = new HashMap<String, Product>();
 
