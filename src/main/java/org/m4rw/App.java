@@ -1,7 +1,5 @@
 package org.m4rw;
 
-import org.m4rw.products.Product;
-import org.m4rw.products.ProductInMemoryRepositoryImpl;
 
 /**
  * CheckoutComponent application example
@@ -17,6 +15,7 @@ public class App
     }
 
     private static void boostrapApplication() {
+//TODO showcase
 
 //        ProductRepository productDao = new ProductInMemoryRepositoryImpl();
 //        productDao.addNewProduct("someProductCode", new ProductBuilder()

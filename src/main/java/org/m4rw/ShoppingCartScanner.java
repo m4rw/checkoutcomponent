@@ -12,7 +12,7 @@ public interface ShoppingCartScanner {
      * It's intended to be a multimap type of collection and duplicates of the same type of product are possible
      *
      * @param productCode  unique identifier of product,
-     * @param item product object
+     * @param item  {@link org.m4rw.products.Product}
      * @return number of items scanned so far. Duplicates of the same type of product are allowed
      * @throws NoSuchElementException when relevant ProductRepository does not contain product with productCode
      */
@@ -34,7 +34,7 @@ public interface ShoppingCartScanner {
      * irrelevant for the scanner.
      *
      * @param productCode  unique identifier of product,
-     * @param item product object
+     * @param item {@link org.m4rw.products.Product}
      * */
     boolean removeProduct(String productCode, Product item);
 

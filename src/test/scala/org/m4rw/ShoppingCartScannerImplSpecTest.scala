@@ -2,6 +2,7 @@ package org.m4rw
 
 
 import org.junit.runner.RunWith
+import org.m4rw.products.DuplicateProductException.ProductRepository
 import org.m4rw.products.{Product, ProductInMemoryRepositoryImpl}
 import org.scalatest.{FlatSpec, GivenWhenThen}
 import org.scalatest.PrivateMethodTester._

@@ -2,21 +2,19 @@ package org.m4rw;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import org.m4rw.products.DuplicateProductException;
 import org.m4rw.products.Product;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implementation of {@code ShoppingCartScanner} that uses an {@code ArrayListMultimap} to store
  * the product items for a given key (product). A {@link HashMap} associates each key with an
  * {@link ArrayList} of values.
  *
- *  * <p>This class is stateful and is not threadsafe when any concurrent operations update the
+ * <p>This class is stateful and is not threadsafe when any concurrent operations update the
  * scanner. Concurrent read operations will work correctly.
  *
  * <p>See the Guava User Guide article on <a href=
@@ -30,11 +28,10 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
     Multimap<String,Product> scannedProducts = ArrayListMultimap.create();
     //map of product -> special deal
     HashMap<String, SpecialDeal> specialDeals;
-    ProductRepository productRepository;
-//    public PriceCalculator priceCalculator = new PriceCalculator();
+    DuplicateProductException.ProductRepository productRepository;
 
 
-    ShoppingCartScannerImpl(HashMap<String, SpecialDeal> specialDeals, ProductRepository productRepository){
+    ShoppingCartScannerImpl(HashMap<String, SpecialDeal> specialDeals, DuplicateProductException.ProductRepository productRepository){
         this.specialDeals = specialDeals;
         this.productRepository = productRepository;
     }
@@ -98,7 +95,7 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
                         specialDeals.get(product),
                         numberOfItems);
             }
-            else{//no special deal for the product
+            else{//no special deal exists for the product
                 totalPrice += PriceCalculator.calculateStandardPriceOfAllItems(scannedProducts.get(product));
             }
         }
@@ -113,7 +110,7 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
 
     /**
      * @param product
-     * @return a number of items of a given product in the shopping cart
+     * @return a number of items scanned so far
      */
     private int getNumberOfItems(String product) {
         return scannedProducts.get(product).size();
@@ -123,8 +120,4 @@ public class ShoppingCartScannerImpl implements ShoppingCartScanner {
     public int getNumberOfScannedItems() {
         return scannedProducts.size();
     }
-
-    /**
-     * Inner class to encapsulate logic to calculate prices
-     */
 }

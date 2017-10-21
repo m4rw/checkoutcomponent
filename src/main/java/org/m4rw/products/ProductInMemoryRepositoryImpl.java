@@ -1,7 +1,5 @@
 package org.m4rw.products;
 
-import org.m4rw.ProductRepository;
-import org.springframework.dao.DuplicateKeyException;
 import java.util.*;
 
 /**
@@ -12,14 +10,14 @@ import java.util.*;
  * map. Concurrent read operations will work correctly.
  *
  */
-public class ProductInMemoryRepositoryImpl implements ProductRepository {
+public class ProductInMemoryRepositoryImpl implements DuplicateProductException.ProductRepository {
 
     private HashMap<String,Product> products = new HashMap<String, Product>();
 
 
-    public void addNewProduct(String productCode, Product product) throws DuplicateKeyException {
+    public void addNewProduct(String productCode, Product product) throws DuplicateProductException {
         if (products.containsKey(productCode))
-            throw new DuplicateKeyException("Product with this product code already exists");
+            throw new DuplicateProductException("Product with this product code already exists");
         products.put(productCode, product);
     }
 
