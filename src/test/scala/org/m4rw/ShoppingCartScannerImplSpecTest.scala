@@ -62,6 +62,36 @@ class ShoppingCartScannerImplSpecTest extends FlatSpec with GivenWhenThen {
     assert(scanner.getNumberOfScannedItems() === 3)
   }
 
+  it should "get correct price of the busket that have mutli priced product. Scanner uses Product Repository" in {
+    Given("Shopping cart is empty. Product repository contains milk and soda products")
+
+    val scanner =  new ShoppingCartScannerImpl(getSpecialDealForMilkSub, getProductRepositoryStub());
+
+    When("when I scan two milks and one soda")
+
+    //scanning three same milks
+    scanner.scanProduct("milkCode")
+    scanner.scanProduct("milkCode")
+    scanner.scanProduct("milkCode")
+
+    scanner.scanProduct("sodaCode")
+
+    Then("get right total price")
+    assert(scanner.getTotalPrice === 20 )
+
+
+    When ("remove one milk from the basket ")
+    scanner.removeProduct("milkCode",Product.builder().productCode("milkCode").productName("Milk").unitPrice(5.5).build())
+    Then("Get right total price. Now, standard unit prices should apply to milk products")
+    info("Special price cannot be applied")
+    assert(scanner.getTotalPrice === 21)
+
+
+    Then("get correct amount of items in total")
+    assert(scanner.getNumberOfScannedItems() === 3)
+  }
+
+
 
   it should "get correct standard price after adding products that don't have respective special deals" in {
     Given("Shopping cart is empty")
@@ -81,6 +111,13 @@ class ShoppingCartScannerImplSpecTest extends FlatSpec with GivenWhenThen {
     info("since there is no special deals for this shopping cart total price equals standard price")
     assert(scanner.getStandardTotalPrice === 21)
   }
+
+  def getSpecialDealForMilkSub = {
+    val specialDeal = new java.util.HashMap[String, SpecialDeal]()
+    specialDeal.put("milkCode", new SpecialDeal(3,10))
+    specialDeal
+  }
+
 
   // factory method for ProductRepository stub
   def getProductRepositoryStub(): ProductRepository = {
