@@ -37,12 +37,12 @@ class ProductInMemoryRepositorySpec extends FlatSpec with GivenWhenThen{
     val emptyList = productRepository.getListOfAllProducts
     assert(emptyList.size() === 1 )
 
-    Then("you can get product by its product code")
+    And("you can get product by its product code")
     val persistedProduct = productRepository.getProductByItsCode(product.getProductCode)
     assert(persistedProduct.equals(product))
     info("product seems right")
 
-    Then("you should get an exception when trying to get product with incorrect code")
+    And("you should get an exception when trying to get product with incorrect code")
     intercept[NoSuchElementException] {
       productRepository.getProductByItsCode("WRONG CODE")
     }
