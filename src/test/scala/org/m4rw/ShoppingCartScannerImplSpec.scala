@@ -1,6 +1,5 @@
 package org.m4rw
 
-
 import org.junit.runner.RunWith
 import org.m4rw.products.ProductRepository
 import org.m4rw.products.{Product, ProductInMemoryRepositoryImpl}
@@ -9,7 +8,7 @@ import org.scalatest.PrivateMethodTester._
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class ShoppingCartScannerImplSpecTest extends FlatSpec with GivenWhenThen {
+class ShoppingCartScannerImplSpec extends FlatSpec with GivenWhenThen {
 
   behavior of "Shopping cart scanner"
 

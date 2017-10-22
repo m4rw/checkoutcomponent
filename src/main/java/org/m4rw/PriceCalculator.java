@@ -43,7 +43,7 @@ public  class PriceCalculator {
 
         double price = 0;
         //calculate price per product group
-        int amountOfItems = deal.getAmountOfItems();
+        int amountOfItems = deal.getNumberOfItems();
         int quotient = numberOfScannedItems / amountOfItems;
         int remainder = numberOfScannedItems % amountOfItems;
 

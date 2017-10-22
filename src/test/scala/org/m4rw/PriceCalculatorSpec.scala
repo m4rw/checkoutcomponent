@@ -4,7 +4,7 @@ package org.m4rw
 import org.m4rw.products.Product
 import org.scalatest.{FlatSpec, GivenWhenThen}
 
-class PriceCalculatorSpecTest extends FlatSpec with GivenWhenThen{
+class PriceCalculatorSpec extends FlatSpec with GivenWhenThen{
 
   behavior of "Price calculator"
 

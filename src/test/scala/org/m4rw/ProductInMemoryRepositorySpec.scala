@@ -7,7 +7,7 @@ import org.scalatest.junit.JUnitRunner
 import org.scalatest.{FlatSpec, GivenWhenThen}
 
 @RunWith(classOf[JUnitRunner])
-class ProductInMemoryRepositorySpecTest extends FlatSpec with GivenWhenThen{
+class ProductInMemoryRepositorySpec extends FlatSpec with GivenWhenThen{
 
 
   behavior of "Product Repository"
